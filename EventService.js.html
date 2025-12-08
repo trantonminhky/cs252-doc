@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>EventService.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AIService.html">AIService</a><ul class='methods'><li data-type='method'><a href="AIService.html#generateReviews">generateReviews</a></li><li data-type='method'><a href="AIService.html#sendPrompt">sendPrompt</a></li></ul></li><li><a href="DBService.html">DBService</a><ul class='methods'><li data-type='method'><a href="DBService.html#clear">clear</a></li><li data-type='method'><a href="DBService.html#clearAll">clearAll</a></li><li data-type='method'><a href="DBService.html#export">export</a></li><li data-type='method'><a href="DBService.html#exportAll">exportAll</a></li></ul></li><li><a href="EventService.html">EventService</a><ul class='methods'><li data-type='method'><a href="EventService.html#createEvent">createEvent</a></li><li data-type='method'><a href="EventService.html#importToDB">importToDB</a></li></ul></li><li><a href="GeocodeService.html">GeocodeService</a><ul class='methods'><li data-type='method'><a href="GeocodeService.html#geocode">geocode</a></li><li data-type='method'><a href="GeocodeService.html#reverseGeocode">reverseGeocode</a></li></ul></li><li><a href="LocationService.html">LocationService</a><ul class='methods'><li data-type='method'><a href="LocationService.html#importToDB">importToDB</a></li><li data-type='method'><a href="LocationService.html#search">search</a></li></ul></li><li><a href="MapService.html">MapService</a></li><li><a href="ProfileService.html">ProfileService</a><ul class='methods'><li data-type='method'><a href="ProfileService.html#addSavedPlace">addSavedPlace</a></li><li data-type='method'><a href="ProfileService.html#getSavedPlaces">getSavedPlaces</a></li><li data-type='method'><a href="ProfileService.html#login">login</a></li><li data-type='method'><a href="ProfileService.html#register">register</a></li><li data-type='method'><a href="ProfileService.html#removeSavedPlace">removeSavedPlace</a></li><li data-type='method'><a href="ProfileService.html#setPreferences">setPreferences</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">EventService.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import EventDB from '../db/EventDB.js';
+import ServiceResponse from '../helper/ServiceResponse.js';
+import eventsData from '../../events.json' with { type: "json" };
+
+// TO-DO: ADD LOCATION TO EVENT
+// TO-DO: REST-IFY EVENT AND OVERALL REFACTOR
+
+/**
+ * Event service provider class.
+ * @class
+ */
+class EventService {
+	/**
+	 * Service function for &lt;b>/api/event/import&lt;/b>. Import a list of events into database given a JSON. The description is meant to stay vague since this is a developer endpoint. Supports &lt;b>POST&lt;/b> requests.
+	 * @returns {Promise&lt;ServiceResponse>}
+	 * 
+	 * @example &lt;caption>cURL&lt;/caption>
+	 * curl -X POST http://localhost:3000/api/event/import
+	 * 
+	 * @example &lt;caption>Response&lt;/caption>
+	 * {
+	 * 	"success": true,
+	 * 	"statusCode": 200,
+	 * 	"payload": {
+	 * 		"message": "Success (OK)",
+	 * 		"data": null
+	 * 	}
+	 * }
+	 * 
+	 * @property {CREATED} 201 - Successful request
+	 * @property {METHOD_NOT_ALLOWED} 405 - The endpoint does not support the HTTP method specified
+	 * @property {INTERNAL_SERVER_ERROR} 500 - Something went wrong with the backend (cooked)
+	 */
+
+	async importToDB() {
+		for (const entry of eventsData) {
+			const eventID = EventDB.autonum();
+			EventDB.set(eventID, {
+				id: eventID,
+				name: entry.name_translated,
+				description: entry.description_translated,
+				startTime: entry.s_milliseconds,
+				endTime: entry.e_milliseconds,
+				imageLink: entry.image_link,
+				participants: []
+			});
+		}
+
+		const response = new ServiceResponse(
+			true,
+			201,
+			"Success"
+		);
+		return response;
+	}
+
+	/**
+	 * Service function for &lt;b>/api/event/create&lt;/b>
+	 */
+	async createEvent(name, description, imageLink = null, startTime = null, endTime = null) {
+		const eventID = EventDB.autonum();
+		const eventData = {
+			id: eventID,
+			name: name,
+			description: description,
+			startTime: startTime || Date.now(),
+			endTime: endTime,
+			imageLink: imageLink,
+			participants: []
+		}
+
+		EventDB.set(eventID, eventData);
+
+		const response = new ServiceResponse(
+			true,
+			201,
+			"Success",
+			eventData
+		);
+		return response;
+	}
+
+	async subscribe(userID, eventID) {
+		EventDB.push(eventID, userID, "participants");
+		const response = new ServiceResponse(
+			true,
+			200,
+			"Success"
+		);
+		return response;
+	}
+
+	async unsubscribe(userID, eventID) {
+		EventDB.remove(eventID, userID, "participants");
+		const response = new ServiceResponse(
+			true,
+			200,
+			"Success"
+		);
+		return response;
+	}
+
+	async getByUserID(userID) {
+		const _export = EventDB.export();
+
+		const results = [];
+		for (const [key, val] of Object.entries(_export)) {
+			if (val.participants.includes(userID)) {
+				results.push(val);
+			}
+		}
+
+		const response = new ServiceResponse(
+			true,
+			200,
+			"Success",
+			results
+		);
+		return response;
+	}
+}
+
+export default new EventService();</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Mon Dec 08 2025 23:45:14 GMT+0700 (Indochina Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
