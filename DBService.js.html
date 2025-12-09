@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AIService.html">AIService</a><ul class='methods'><li data-type='method'><a href="AIService.html#generateReviews">generateReviews</a></li><li data-type='method'><a href="AIService.html#sendPrompt">sendPrompt</a></li></ul></li><li><a href="DBService.html">DBService</a><ul class='methods'><li data-type='method'><a href="DBService.html#clear">clear</a></li><li data-type='method'><a href="DBService.html#clearAll">clearAll</a></li><li data-type='method'><a href="DBService.html#export">export</a></li><li data-type='method'><a href="DBService.html#exportAll">exportAll</a></li></ul></li><li><a href="EventService.html">EventService</a><ul class='methods'><li data-type='method'><a href="EventService.html#createEvent">createEvent</a></li><li data-type='method'><a href="EventService.html#importToDB">importToDB</a></li></ul></li><li><a href="GeocodeService.html">GeocodeService</a><ul class='methods'><li data-type='method'><a href="GeocodeService.html#geocode">geocode</a></li><li data-type='method'><a href="GeocodeService.html#reverseGeocode">reverseGeocode</a></li></ul></li><li><a href="LocationService.html">LocationService</a><ul class='methods'><li data-type='method'><a href="LocationService.html#importToDB">importToDB</a></li><li data-type='method'><a href="LocationService.html#search">search</a></li></ul></li><li><a href="MapService.html">MapService</a></li><li><a href="ProfileService.html">ProfileService</a><ul class='methods'><li data-type='method'><a href="ProfileService.html#addSavedPlace">addSavedPlace</a></li><li data-type='method'><a href="ProfileService.html#getSavedPlaces">getSavedPlaces</a></li><li data-type='method'><a href="ProfileService.html#login">login</a></li><li data-type='method'><a href="ProfileService.html#register">register</a></li><li data-type='method'><a href="ProfileService.html#removeSavedPlace">removeSavedPlace</a></li><li data-type='method'><a href="ProfileService.html#setPreferences">setPreferences</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AIService.html">AIService</a><ul class='methods'><li data-type='method'><a href="AIService.html#generateReviews">generateReviews</a></li><li data-type='method'><a href="AIService.html#sendPrompt">sendPrompt</a></li></ul></li><li><a href="DBService.html">DBService</a><ul class='methods'><li data-type='method'><a href="DBService.html#clear">clear</a></li><li data-type='method'><a href="DBService.html#clearAll">clearAll</a></li><li data-type='method'><a href="DBService.html#export">export</a></li><li data-type='method'><a href="DBService.html#exportAll">exportAll</a></li></ul></li><li><a href="EventService.html">EventService</a><ul class='methods'><li data-type='method'><a href="EventService.html#createEvent">createEvent</a></li><li data-type='method'><a href="EventService.html#importToDB">importToDB</a></li></ul></li><li><a href="GeocodeService.html">GeocodeService</a><ul class='methods'><li data-type='method'><a href="GeocodeService.html#geocode">geocode</a></li><li data-type='method'><a href="GeocodeService.html#reverseGeocode">reverseGeocode</a></li></ul></li><li><a href="LocationService.html">LocationService</a><ul class='methods'><li data-type='method'><a href="LocationService.html#importToDB">importToDB</a></li><li data-type='method'><a href="LocationService.html#search">search</a></li></ul></li><li><a href="MapService.html">MapService</a><ul class='methods'><li data-type='method'><a href="MapService.html#getRoute">getRoute</a></li><li data-type='method'><a href="MapService.html#nearby">nearby</a></li></ul></li><li><a href="ProfileService.html">ProfileService</a><ul class='methods'><li data-type='method'><a href="ProfileService.html#addSavedPlace">addSavedPlace</a></li><li data-type='method'><a href="ProfileService.html#getSavedPlaces">getSavedPlaces</a></li><li data-type='method'><a href="ProfileService.html#login">login</a></li><li data-type='method'><a href="ProfileService.html#refresh">refresh</a></li><li data-type='method'><a href="ProfileService.html#register">register</a></li><li data-type='method'><a href="ProfileService.html#removeSavedPlace">removeSavedPlace</a></li><li data-type='method'><a href="ProfileService.html#setPreferences">setPreferences</a></li></ul></li></ul>
     
 </nav>
 
@@ -71,7 +71,7 @@ class DBService {
 	}
 
 	/**
-	 * Service function for &lt;b>api/db/clear&lt;/b>. Clears a database given the name. &lt;b>This action is irreversible&lt;/b>. Supports &lt;b>DELETE&lt;/b> requests.
+	 * Service function for &lt;code>api/db/clear&lt;/code>. Clears a database given the name. &lt;b>This action is irreversible&lt;/b>. Supports &lt;code>DELETE&lt;/code> requests.
 	 * @param {name} name - Database name to delete
 	 * @returns {Promise&lt;ServiceResponse>}
 	 * 
@@ -109,7 +109,7 @@ class DBService {
 	}
 
 	/**
-	 * Service function for &lt;b>api/db/clear-all&lt;/b>. Clears alls data from all databases. &lt;b>This action is destructive and irreversible&lt;/b>. Supports &lt;b>DELETE&lt;/b> requests.
+	 * Service function for &lt;code>api/db/clear-all&lt;/code>. Clears alls data from all databases. &lt;b>This action is destructive and irreversible&lt;/b>. Supports &lt;code>DELETE&lt;/code> requests.
 	 * @returns {Promise&lt;ServiceResponse>}
 	 * 
 	 * @example &lt;caption>cURL&lt;/caption>
@@ -131,7 +131,7 @@ class DBService {
 	}
 
 	/**
-	 * Service function for &lt;b>api/db/export&lt;/b>. Export Enmap database to readable JSON given database name. Supports &lt;b>GET&lt;/b> requests.
+	 * Service function for &lt;code>api/db/export&lt;/code>. Export Enmap database to readable JSON given database name. Supports &lt;code>GET&lt;/code> requests.
 	 * @param {String} name - Database name
 	 * @returns {Promise&lt;ServiceResponse>}
 	 * 
@@ -191,7 +191,7 @@ class DBService {
 	}
 
 	/**
-	 * Service function for &lt;b>/api/db/export-all&lt;/b>. Get the whole Enmap databases exported and formatted as a readable JSON. Supports &lt;b>GET&lt;/b> requests.
+	 * Service function for &lt;code>/api/db/export-all&lt;/code>. Get the whole Enmap databases exported and formatted as a readable JSON. Supports &lt;code>GET&lt;/code> requests.
 	 * @returns {Promise&lt;ServiceResponse>} Response
 	 * 
 	 * @example &lt;caption>cURL&lt;/caption>
@@ -248,7 +248,7 @@ export default new DBService();</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Mon Dec 08 2025 23:45:14 GMT+0700 (Indochina Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Tue Dec 09 2025 11:34:41 GMT+0700 (Indochina Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
@@ -257,5 +257,7 @@ export default new DBService();</code></pre>
 
 
 
+    <link type="text/css" rel="stylesheet" href="docdash-custom.css">
+    
 </body>
 </html>
